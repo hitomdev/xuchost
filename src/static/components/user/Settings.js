@@ -1,7 +1,7 @@
-window.Modal = window.Modal || {}
-window.Theme = window.Theme || {}
-window.Language = window.Language || {}
-window.PasswordInput = window.PasswordInput || {}
+var Modal = window.Modal = window.Modal || {}
+var Theme = window.Theme = window.Theme || {}
+var Language = window.Language = window.Language || {}
+var PasswordInput = window.PasswordInput = window.PasswordInput || {}
 
 const DynamicStringsPopup = window.DynamicStringsPopup || {
     opened: false,

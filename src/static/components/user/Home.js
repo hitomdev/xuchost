@@ -1,4 +1,4 @@
-window.Files = window.Files || {}
+var Files = window.Files = window.Files || {}
 
 const Home = window.Home || {
     totalUploads: 0,

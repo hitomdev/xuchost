@@ -1,4 +1,4 @@
-window.PasswordInput = window.PasswordInput || {}
+var PasswordInput = window.PasswordInput = window.PasswordInput || {}
 
 function resetTurnstile(selector) {
     if (window.turnstile && typeof window.turnstile.reset === 'function') {

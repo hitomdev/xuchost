@@ -1,10 +1,10 @@
-window.Modal = window.Modal || {}
-window.Admin = window.Admin || {}
-window.Home = window.Home || {}
-window.Uploader = window.Uploader || {}
-window.Settings = window.Settings || {}
-window.Integrations = window.Integrations || {}
-window.Files = window.Files || {}
+var Modal = window.Modal = window.Modal || {}
+var Admin = window.Admin = window.Admin || {}
+var Home = window.Home = window.Home || {}
+var Uploader = window.Uploader = window.Uploader || {}
+var Settings = window.Settings = window.Settings || {}
+var Integrations = window.Integrations = window.Integrations || {}
+var Files = window.Files = window.Files || {}
 
 const isMobile = window.matchMedia('(max-width: 768px)').matches
 let sidebarOpen = !isMobile
