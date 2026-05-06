@@ -1,11 +1,11 @@
-var Login = Login || {}
-var Recovery = Recovery || {}
-var ErrorPage = ErrorPage || {}
-var Home = Home || {}
-var Dashboard = Dashboard || {}
+window.Login = window.Login || {}
+window.Recovery = window.Recovery || {}
+window.ErrorPage = window.ErrorPage || {}
+window.Home = window.Home || {}
+window.Dashboard = window.Dashboard || {}
 
 const isLoggedIn = document.cookie.split('; ').find(row => row.startsWith('auth='))
-const hasRecoveryCode = new URLSearchParams(window.location.hash.split('?')[1]).get('recovery_code') != null
+const hasRecoveryCode = new URLSearchParams(window.location.hash.split('?')[1]).get('recovery_code') !== null
 
 m.route(document.body, '/', {
     '/': {

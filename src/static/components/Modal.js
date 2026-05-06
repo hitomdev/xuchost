@@ -1,6 +1,6 @@
 let modalsSpawned = 0
 
-var Modal = Modal || {
+const Modal = window.Modal || {
     modals: [],
     spawn(title, content, minWidth) {
         const id = modalsSpawned.toString()
@@ -15,7 +15,7 @@ var Modal = Modal || {
         m.redraw()
     },
     close(id) {
-        this.modals = this.modals.filter(modal => modal._id != id)
+        this.modals = this.modals.filter(modal => modal._id !== id)
         m.redraw()
     },
     closeAll() {
@@ -37,3 +37,5 @@ var Modal = Modal || {
         )
     }
 }
+
+window.Modal = Modal

@@ -1,8 +1,8 @@
-var files = []
+let files = []
 
 function deleteFile(uri) {
-    files = files.filter(f => f.uri != uri)
-    m.request({url: `/files/delete?uri=${uri}`, method: 'DELETE'}).then(data => {
+    files = files.filter(f => f.uri !== uri)
+    m.request({url: `/files/delete?uri=${uri}`, method: 'DELETE'}).then(() => {
         Dashboard.updateStorageData()
         return true
     })
@@ -11,8 +11,8 @@ function deleteFile(uri) {
 }
 
 function renameFile(uri, newFilename) {
-    files = files.filter(f => f.uri != uri)
-    m.request({url: `/files/edit`, method: 'PUT', body: {uri: uri, new_filename: newFilename}}).then(data => {
+    files = files.filter(f => f.uri !== uri)
+    m.request({url: '/files/edit', method: 'PUT', body: {uri: uri, new_filename: newFilename}}).then(() => {
         window.location.reload()
         return true
     })
@@ -20,7 +20,7 @@ function renameFile(uri, newFilename) {
     return false
 }
 
-var FileContext = FileContext || {
+const FileContext = window.FileContext || {
     didCopy: false,
     confirmDelete: false,
     opened: false,
@@ -47,7 +47,7 @@ var FileContext = FileContext || {
                 ]),
                 m('.buttons.pills', [
                     m('button.white', {
-                        onclick: e => {
+                        onclick: () => {
                             navigator.clipboard.writeText(FileContext.data.url)
                             FileContext.didCopy = true
                         }
@@ -64,9 +64,9 @@ var FileContext = FileContext || {
                         ])
                     ]),
                     m('button.red', {
-                        onclick: e => {
-                            if (this.confirmDelete) {
-                                let didDelete = deleteFile(FileContext.data.uri)
+                        onclick: () => {
+                            if (FileContext.confirmDelete) {
+                                deleteFile(FileContext.data.uri)
                                 FileContext.opened = false
                                 return
                             }
@@ -75,7 +75,7 @@ var FileContext = FileContext || {
                         }
                     }, FileContext.confirmDelete ? t('Are you sure?') : t('Delete')),
                     m('button.secondary', {
-                        onclick: e => {FileContext.opened = false}
+                        onclick: () => {FileContext.opened = false}
                     }, t('Cancel'))
                 ])
             ])
@@ -83,7 +83,9 @@ var FileContext = FileContext || {
     }
 }
 
-var FileRecord = FileRecord || {
+window.FileContext = FileContext
+
+const FileRecord = window.FileRecord || {
     didCopy: false,
     view(vnode) {
         if (this.hidden) {
@@ -97,7 +99,7 @@ var FileRecord = FileRecord || {
                 m('.file__actions--cell', [
                     m('.buttons', [
                         m('button.white.secondary.compact', {
-                            onclick: e => {
+                            onclick: () => {
                                 navigator.clipboard.writeText(data.url)
                                 this.didCopy = true
                             }
@@ -114,8 +116,8 @@ var FileRecord = FileRecord || {
                             ])
                         ]),
                         m('button.red.secondary.compact', {
-                            onclick: e => {
-                                let didDelete = deleteFile(data.uri)
+                            onclick: () => {
+                                deleteFile(data.uri)
                             }
                         }, [
                             m('.material-symbols-rounded', 'delete')
@@ -135,7 +137,7 @@ var FileRecord = FileRecord || {
                         m('h2', data.filename),
                         m('input', {
                             onblur: e => {
-                                if (e.target.value != data.filename) {
+                                if (e.target.value !== data.filename) {
                                     renameFile(data.uri, e.target.value)
                                 }
                             },
@@ -154,7 +156,7 @@ var FileRecord = FileRecord || {
                     m('span', data.filename),
                     m('input', {
                         onblur: e => {
-                            if (e.target.value != data.filename) {
+                            if (e.target.value !== data.filename) {
                                 renameFile(data.uri, e.target.value)
                             }
                         },
@@ -166,7 +168,7 @@ var FileRecord = FileRecord || {
                 m('td', [
                     m('.buttons', [
                         m('button.white.secondary.compact', {
-                            onclick: e => {
+                            onclick: () => {
                                 navigator.clipboard.writeText(data.url)
                                 this.didCopy = true
                             }
@@ -183,8 +185,8 @@ var FileRecord = FileRecord || {
                             ])
                         ]),
                         m('button.red.secondary.compact', {
-                            onclick: e => {
-                                let didDelete = deleteFile(data.uri)
+                            onclick: () => {
+                                deleteFile(data.uri)
                             }
                         }, [
                             m('.material-symbols-rounded', 'delete')
@@ -201,7 +203,9 @@ var FileRecord = FileRecord || {
     }
 }
 
-var Files = Files || {
+window.FileRecord = FileRecord
+
+const Files = window.Files || {
     showTitle: true,
     shouldLoad: true,
     displayMode: 'table',
@@ -245,7 +249,7 @@ var Files = Files || {
         m.request({url: `/files/get?pos=${this.pos}&query=*${this.query}*`})
             .then(res => {
                 const len = res.length
-                if (len == 0) {
+                if (len === 0) {
                     this.dead = true
                     return
                 }
@@ -266,13 +270,13 @@ var Files = Files || {
                 }),
                 m('.buttons', [
                     m('button', {
-                        onclick: () => {this.displayMode = this.displayMode == 'grid' ? 'table' : 'grid'}
+                        onclick: () => {this.displayMode = this.displayMode === 'grid' ? 'table' : 'grid'}
                     }, [
-                        m('.material-symbols-rounded', this.displayMode == 'grid' ? 'lists' : 'grid_view')
+                        m('.material-symbols-rounded', this.displayMode === 'grid' ? 'lists' : 'grid_view')
                     ])
                 ])
             ]),
-            this.displayMode == 'grid'
+            this.displayMode === 'grid'
                 ? m('.files--grid', files.map(file => m(FileRecord, {data: file, display: this.displayMode})))
                 : m('table.files--table', [
                     m('thead', [
@@ -288,6 +292,8 @@ var Files = Files || {
         ]
     }
 }
+
+window.Files = Files
 
 function isAtBottom() {
     return (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200

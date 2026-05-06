@@ -1,6 +1,6 @@
-var Files = Files || {}
+window.Files = window.Files || {}
 
-var Home = Home || {
+const Home = window.Home || {
     totalUploads: 0,
     totalUsageGb: 0,
     latestUser: '',
@@ -143,3 +143,5 @@ var Home = Home || {
         ]
     }
 }
+
+window.Home = Home

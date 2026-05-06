@@ -1,11 +1,10 @@
-var UsersList = UsersList || {
+const UsersList = window.UsersList || {
     data: {'users': []},
     oninit() {
         m.request({
             url: '/api/admin/list_users',
             method: 'GET'
         }).then(data => {
-            console.log(data)
             this.data = data
         })
     },
@@ -35,7 +34,9 @@ var UsersList = UsersList || {
     }
 }
 
-var Admin = Admin || {
+window.UsersList = UsersList
+
+const Admin = window.Admin || {
     fileId: '',
     userId: null,
     view() {
@@ -96,7 +97,7 @@ var Admin = Admin || {
                                 'uid': this.userId,
                                 'purge_uploads': true
                             }
-                        }).then(data => {
+                        }).then(() => {
                             alert('Successfuly banned user')
                         })
                     }
@@ -117,7 +118,7 @@ var Admin = Admin || {
             m('.buttons', [
                 m('button.red', {
                     onclick: () => {
-                        m.request({url: `/files/delete?uri=${this.fileId}`, method: 'DELETE'}).then(data => {
+                        m.request({url: `/files/delete?uri=${this.fileId}`, method: 'DELETE'}).then(() => {
                             alert('Successfuly removed')
                         })
                     }
@@ -126,3 +127,5 @@ var Admin = Admin || {
         ])
     }
 }
+
+window.Admin = Admin

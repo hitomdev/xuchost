@@ -1,6 +1,12 @@
-var PasswordInput = PasswordInput || {}
+window.PasswordInput = window.PasswordInput || {}
 
-var Recovery = Recovery || {
+function resetTurnstile(selector) {
+    if (window.turnstile && typeof window.turnstile.reset === 'function') {
+        window.turnstile.reset(selector)
+    }
+}
+
+const Recovery = window.Recovery || {
     busy: false,
     password: '',
     password_secondary: '',
@@ -19,7 +25,7 @@ var Recovery = Recovery || {
         e.preventDefault()
         this.busy = true
 
-        var challengeToken = ''
+        let challengeToken = ''
         const challengeField = document.querySelector('[name="cf-turnstile-response"]')
         if (challengeField) {
             challengeToken = challengeField.value
@@ -45,7 +51,7 @@ var Recovery = Recovery || {
             this.errorMsg = err.response.error
             this.busy = false
         }).finally(() => {
-            turnstile.reset('.cf-turnstile')
+            resetTurnstile('.cf-turnstile')
         })
     },
     view() {
@@ -82,7 +88,7 @@ var Recovery = Recovery || {
                                 })
                             ]),
                         ]),
-                        typeof(CLOUDFLARE_TURNSTILE_SITE) != 'undefined' ? m('.form__input', 'Captcha', [
+                        typeof CLOUDFLARE_TURNSTILE_SITE !== 'undefined' ? m('.form__input', 'Captcha', [
                             m('.cf-turnstile', {
                                 'data-sitekey': CLOUDFLARE_TURNSTILE_SITE,
                                 'data-size': 'flexible',
@@ -100,3 +106,5 @@ var Recovery = Recovery || {
         ])
     }
 }
+
+window.Recovery = Recovery

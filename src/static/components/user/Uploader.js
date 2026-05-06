@@ -1,4 +1,4 @@
-var FileJob = FileJob || {
+const FileJob = window.FileJob || {
     didCopy: false,
     view(vnode) {
         const job = vnode.attrs.job
@@ -25,7 +25,7 @@ var FileJob = FileJob || {
                     }),
                     m('.buttons', [
                         m('button.white', {
-                            onclick: e => {
+                            onclick: () => {
                                 navigator.clipboard.writeText(job.data.url)
                                 this.didCopy = true
                             }
@@ -48,7 +48,9 @@ var FileJob = FileJob || {
     }
 }
 
-var Uploader = Uploader || {
+window.FileJob = FileJob
+
+const Uploader = window.Uploader || {
     files: [],
     jobs: [],
     fileInput: null,
@@ -116,7 +118,7 @@ var Uploader = Uploader || {
                 m('h3.uploader__title', t('Drag and Drop your files')),
                 m('small', t('or')),
                 m('button[type="button"]', {
-                    onclick: e => {this.fileInput.click()}
+                    onclick: () => {this.fileInput.click()}
                 }, t('Browse files')),
                 m('input[type=file].hidden', {
                     multiple: false,
@@ -133,3 +135,5 @@ var Uploader = Uploader || {
         ])
     }
 }
+
+window.Uploader = Uploader

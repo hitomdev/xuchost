@@ -1,5 +1,5 @@
 // localization utility
-var languageCache = {}
+const languageCache = {}
 
 function getLanguage() {
     const saved = localStorage.getItem('lang')
@@ -13,11 +13,11 @@ function getLanguage() {
 
 function loadLanguage(lang) {
     if (!languageCache[lang]) {
-      var req = new XMLHttpRequest()
+      const req = new XMLHttpRequest()
       req.open('GET', '/static/lang/' + lang + '.json', false)
       req.send(null)
 
-      var txt = req.responseText || ''
+      const txt = req.responseText || ''
 
       if (req.status === 200) {
           try {
@@ -33,7 +33,7 @@ function loadLanguage(lang) {
 }
 
 function t(str) {
-    var dict = loadLanguage(getLanguage())
+    const dict = loadLanguage(getLanguage())
     return dict[str] || str
 }
 

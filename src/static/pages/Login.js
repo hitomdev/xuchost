@@ -1,6 +1,12 @@
-var PasswordInput = PasswordInput || {}
+window.PasswordInput = window.PasswordInput || {}
 
-var PasswordRecoveryModal = PasswordRecoveryModal || {
+function resetTurnstile(selector) {
+    if (window.turnstile && typeof window.turnstile.reset === 'function') {
+        window.turnstile.reset(selector)
+    }
+}
+
+const PasswordRecoveryModal = window.PasswordRecoveryModal || {
     user: '',
     busy: false,
     opened: false,
@@ -8,13 +14,13 @@ var PasswordRecoveryModal = PasswordRecoveryModal || {
     successMsg: '',
     openModal() {
         this.opened = true
-        turnstile.reset('.cf-turnstile#turnstile--recovery')
+        resetTurnstile('.cf-turnstile#turnstile--recovery')
     },
     onsubmit(e) {
         e.preventDefault()
         this.busy = true
 
-        var challengeToken = ''
+        let challengeToken = ''
         const challengeField = document.querySelector('#turnstile--recovery [name="cf-turnstile-response"]')
         if (challengeField) {
             challengeToken = challengeField.value
@@ -38,7 +44,7 @@ var PasswordRecoveryModal = PasswordRecoveryModal || {
             this.errorMsg = err.response.error
             this.busy = false
         }).finally(() => {
-            turnstile.reset('.cf-turnstile#turnstile--recovery')
+            resetTurnstile('.cf-turnstile#turnstile--recovery')
         })
     },
     view() {
@@ -64,7 +70,7 @@ var PasswordRecoveryModal = PasswordRecoveryModal || {
                                 })
                             ]),
                         ]),
-                        typeof(CLOUDFLARE_TURNSTILE_SITE) != 'undefined' ? m('.form__input', 'Captcha', [
+                        typeof CLOUDFLARE_TURNSTILE_SITE !== 'undefined' ? m('.form__input', 'Captcha', [
                             m('.cf-turnstile#turnstile--recovery', {
                                 'data-sitekey': CLOUDFLARE_TURNSTILE_SITE,
                                 'data-size': 'flexible',
@@ -90,7 +96,9 @@ var PasswordRecoveryModal = PasswordRecoveryModal || {
     }
 }
 
-var Login = Login || {
+window.PasswordRecoveryModal = PasswordRecoveryModal
+
+const Login = window.Login || {
     user: '',
     password: '',
     invite: '',
@@ -111,7 +119,7 @@ var Login = Login || {
         e.preventDefault()
         this.busy = true
 
-        var challengeToken = ''
+        let challengeToken = ''
         const challengeField = document.querySelector('#turnstile--login [name="cf-turnstile-response"]')
         if (challengeField) {
             challengeToken = challengeField.value
@@ -129,7 +137,7 @@ var Login = Login || {
             body: formData
         })
         .then(data => {
-            if (data['did_login'] == true) {
+            if (data.did_login === true) {
                 window.location.reload()
                 return
             }
@@ -143,7 +151,7 @@ var Login = Login || {
             this.errorMsg = err.response.error
             this.busy = false
         }).finally(() => {
-            turnstile.reset('.cf-turnstile#turnstile--login')
+            resetTurnstile('.cf-turnstile#turnstile--login')
         })
     },
     view() {
@@ -198,7 +206,7 @@ var Login = Login || {
                                 ]),
                             ])
                         ] : null,
-                        typeof(CLOUDFLARE_TURNSTILE_SITE) != 'undefined' ? m('.form__input', 'Captcha', [
+                        typeof CLOUDFLARE_TURNSTILE_SITE !== 'undefined' ? m('.form__input', 'Captcha', [
                             m('.cf-turnstile#turnstile--login', {
                                 'data-sitekey': CLOUDFLARE_TURNSTILE_SITE,
                                 'data-size': 'flexible',
@@ -212,7 +220,7 @@ var Login = Login || {
                         }, this.isLogin ? t('Log in') : t('Register'))
                     ]),
                     m('p', [
-                        m('span', typeof(SUPPORT_HANDLE) != 'undefined' ? `${t('Help')}: @${SUPPORT_HANDLE} • ` : ''),
+                        m('span', typeof SUPPORT_HANDLE !== 'undefined' ? `${t('Help')}: @${SUPPORT_HANDLE} • ` : ''),
                         m('a.link', {onclick: () => {
                             this.isLogin = !this.isLogin
                         }}, this.isLogin ? t('Looking to register?') : t('Log in'))
@@ -222,3 +230,5 @@ var Login = Login || {
         ])
     }
 }
+
+window.Login = Login

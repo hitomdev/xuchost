@@ -1,4 +1,4 @@
-var Language = Language || {
+const Language = window.Language || {
     view() {
         return m('select', {
             value: localStorage.getItem('lang') || getLanguage() || 'en',
@@ -14,3 +14,5 @@ var Language = Language || {
         ])
     }
 }
+
+window.Language = Language

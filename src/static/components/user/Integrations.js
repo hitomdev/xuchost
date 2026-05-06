@@ -1,4 +1,4 @@
-var Integrations = Integrations || {
+const Integrations = window.Integrations || {
     didReset: false,
     didCopy: false,
     uploadKey: '',
@@ -11,7 +11,7 @@ var Integrations = Integrations || {
             this.uploadKey = response.upload_key
             m.redraw()
         })
-        .catch(error => {
+        .catch(() => {
 
         })
     },
@@ -31,7 +31,7 @@ var Integrations = Integrations || {
                 }),
                 m('.buttons', [
                     m('button', {
-                        onclick: e => {
+                        onclick: () => {
                             navigator.clipboard.writeText(this.uploadKey)
                             this.didCopy = true
                         }
@@ -44,7 +44,7 @@ var Integrations = Integrations || {
                                 return
                             }
 
-                            m.request({url: '/files/regenerate_upload_key', method: 'POST'}).then(data => {
+                            m.request({url: '/files/regenerate_upload_key', method: 'POST'}).then(() => {
                                 this.didReset = true
                             })
                         }
@@ -82,3 +82,5 @@ var Integrations = Integrations || {
         ])
     }
 }
+
+window.Integrations = Integrations

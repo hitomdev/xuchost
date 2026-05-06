@@ -1,4 +1,4 @@
-var ErrorPage = ErrorPage || {
+const ErrorPage = window.ErrorPage || {
     view() {
         return m('main.center', [
             m('article.web-error', [
@@ -11,3 +11,5 @@ var ErrorPage = ErrorPage || {
         ])
     }
 }
+
+window.ErrorPage = ErrorPage

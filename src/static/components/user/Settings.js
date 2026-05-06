@@ -1,9 +1,9 @@
-var Modal = Modal || {}
-var Theme = Theme || {}
-var Language = Language || {}
-var PasswordInput = PasswordInput || {}
+window.Modal = window.Modal || {}
+window.Theme = window.Theme || {}
+window.Language = window.Language || {}
+window.PasswordInput = window.PasswordInput || {}
 
-var DynamicStringsPopup = DynamicStringsPopup || {
+const DynamicStringsPopup = window.DynamicStringsPopup || {
     opened: false,
     view() {
         if (!this.opened) {
@@ -23,7 +23,9 @@ var DynamicStringsPopup = DynamicStringsPopup || {
     }
 }
 
-var Settings = Settings || {
+window.DynamicStringsPopup = DynamicStringsPopup
+
+const Settings = window.Settings || {
     // meta
     busy: false,
     changed: false,
@@ -62,11 +64,11 @@ var Settings = Settings || {
                         url: '/api/user/change_username',
                         body: formData
                     })
-                    .then(data => {
+                    .then(() => {
                         location.reload()
                     })
                     .catch(err => {
-                        errorMsg = err.response.error
+                        this.errorMsg = err.response.error
                     })
                 }
             }, [
@@ -111,7 +113,7 @@ var Settings = Settings || {
                         url: '/api/user/change_password',
                         body: formData
                     })
-                    .then(data => {
+                    .then(() => {
                         location.reload()
                     })
                     .catch(err => {
@@ -184,7 +186,7 @@ var Settings = Settings || {
             this.embed_authorurl = response.embed_authorurl || this.embed_authorurl
             this.embed_description = response.embed_description || this.embed_description
             this.embed_color = response.embed_color || this.embed_color
-            this.anonymous = response.anonymous || this.anonymous
+            this.anonymous = response.anonymous ?? this.anonymous
             this.auto_expire = response.auto_expire || this.auto_expire
             m.redraw()
         })
@@ -289,10 +291,10 @@ var Settings = Settings || {
                                             method: 'DELETE',
                                             url: '/api/user/unlink_discord'
                                         })
-                                        .then(response => {
+                                        .then(() => {
                                             location.reload()
                                         })
-                                        .catch(error => {
+                                        .catch(() => {
 
                                         })
                                     }
@@ -327,7 +329,7 @@ var Settings = Settings || {
                 ]),
                 m('select', {
                     value: String(Boolean(this.anonymous)),
-                    onchange: e => {this.changed = true; this.anonymous = e.target.value == 'true'}
+                    onchange: e => {this.changed = true; this.anonymous = e.target.value === 'true'}
                 }, [
                     m('option', {value: 'true'}, t('Yes')),
                     m('option', {value: 'false'}, t('No'))
@@ -498,3 +500,4 @@ var Settings = Settings || {
     }
 }
 
+window.Settings = Settings

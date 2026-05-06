@@ -1,23 +1,23 @@
-var Modal = Modal || {}
-var Admin = Admin || {}
-var Home = Home || {}
-var Uploader = Uploader || {}
-var Settings = Settings || {}
-var Integrations = Integrations || {}
-var Files = Files || {}
+window.Modal = window.Modal || {}
+window.Admin = window.Admin || {}
+window.Home = window.Home || {}
+window.Uploader = window.Uploader || {}
+window.Settings = window.Settings || {}
+window.Integrations = window.Integrations || {}
+window.Files = window.Files || {}
 
 const isMobile = window.matchMedia('(max-width: 768px)').matches
-var sidebarOpen = !isMobile
-var dashboardTab = localStorage.getItem('tab') || 'home'
+let sidebarOpen = !isMobile
+let dashboardTab = localStorage.getItem('tab') || 'home'
 
-var DashboardTab = DashboardTab || {
+const DashboardTab = window.DashboardTab || {
     view(vnode) {
-        if (dashboardTab == vnode.attrs.tab) {
+        if (dashboardTab === vnode.attrs.tab) {
             document.title = `kokot host - ${vnode.attrs.label}`
         }
 
         return m('li.sidebar__button', {
-            class: dashboardTab == vnode.attrs.tab ? 'sidebar__button--active' : '',
+            class: dashboardTab === vnode.attrs.tab ? 'sidebar__button--active' : '',
             onclick: vnode.attrs.tab ? () => {
                 dashboardTab = vnode.attrs.tab
                 localStorage.setItem('tab', vnode.attrs.tab)
@@ -31,7 +31,9 @@ var DashboardTab = DashboardTab || {
     }
 }
 
-var Dashboard = Dashboard || {
+window.DashboardTab = DashboardTab
+
+const Dashboard = window.Dashboard || {
     username: 'unknown',
     isAdmin: false,
     storageJob: null,
@@ -179,3 +181,5 @@ var Dashboard = Dashboard || {
         ]
     }
 }
+
+window.Dashboard = Dashboard

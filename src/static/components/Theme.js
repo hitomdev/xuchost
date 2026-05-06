@@ -1,4 +1,4 @@
-var Theme = Theme || {
+const Theme = window.Theme || {
     view() {
         return m('select', {
             value: localStorage.getItem('theme') || 'light',
@@ -13,3 +13,5 @@ var Theme = Theme || {
         ])
     }
 }
+
+window.Theme = Theme
